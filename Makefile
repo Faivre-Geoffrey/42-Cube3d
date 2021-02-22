@@ -16,7 +16,7 @@ $(NAME) : $(OBJSRCS)
 	@rm -rf cub3d
 	@echo "${GREEN}**Libft compilation**"
 	@echo "${GREEN}**Cub3D compilation**"
-	@gcc $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
+	@gcc -fsanitize=address $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
 	@echo "${GREEN}***************Done !****************"
 
 all : $(NAME)

@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/22 08:02:28 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/22 08:44:26 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-typedef	struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-
 typedef	struct		s_struct
 {
 	int fd;
@@ -31,5 +24,4 @@ typedef	struct		s_struct
 	int y_render_size;
 	int ground_color[3];
 	int roof_color[3];
-	t_list *map;
 }					t_struct;
