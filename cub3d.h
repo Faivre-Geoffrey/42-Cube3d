@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/22 08:44:26 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/24 13:49:52 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <mlx.h>
+
+typedef struct  s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}			t_data;
 
 typedef	struct		s_struct
 {
-	int fd;
-	int x_render_size;
-	int y_render_size;
-	int ground_color[3];
-	int roof_color[3];
+	int		fd;
+	int		x_render_size;
+	int		y_render_size;
+	int		ground_color[3];
+	int		roof_color[3];
+	int		m_height;
+	int		m_width;
 }					t_struct;

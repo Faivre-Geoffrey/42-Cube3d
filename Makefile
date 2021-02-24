@@ -1,6 +1,6 @@
 GREEN = \033[1;32m
 
-MLX = -lmlx -lm -framework OpenGL -framework AppKit
+MLX = -Lmlx -lmlx -framework OpenGL -framework AppKit
 #MLX = -I /usr/include -g -L /usr/lib -lX11 -lmlx -lXext -lm -fsanitize=address
 
 NAME = cub3d
@@ -16,7 +16,7 @@ $(NAME) : $(OBJSRCS)
 	@rm -rf cub3d
 	@echo "${GREEN}**Libft compilation**"
 	@echo "${GREEN}**Cub3D compilation**"
-	@gcc -fsanitize=address $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
+	@gcc $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
 	@echo "${GREEN}***************Done !****************"
 
 all : $(NAME)

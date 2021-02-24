@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 10:36:17 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/19 10:43:10 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/24 10:53:58 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,9 @@ void	ft_strcpy(char *dst, const char *src)
 	i = 0;
 	if (!dst || !src)
 		return ;
-	if (i > 0)
-	{
 		while (src[i])
 		{
 			dst[i] = src[i];
 			i++;
 		}
-		dst[i] = '\0';
-	}
 }
