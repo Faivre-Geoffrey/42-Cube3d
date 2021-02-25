@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/24 13:49:52 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/25 12:43:42 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ typedef	struct		s_struct
 	int		roof_color[3];
 	int		m_height;
 	int		m_width;
+	int		mini_map_diviseur;
 }					t_struct;
+
+typedef	struct		s_axe
+{
+	int		y;
+	int		x;
+	int		y_c;
+	int		x_c;
+}					t_axe;

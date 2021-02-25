@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:26:56 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/24 15:08:20 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/25 14:58:03 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void display_map(char **tab_map)
 	}
 }
 
-int make_struct(t_struct *s_parsing)
+char	**make_struct(t_struct *s_parsing)
 {
 	char	*string;
 	t_list	*map;
@@ -303,10 +303,8 @@ int make_struct(t_struct *s_parsing)
 	make_double_tab(map, &tab_map, s_parsing);
 	ft_lstclear(&map, fonction_bidon);
 	if (mapissecure(tab_map) == 1)
-		display_map(tab_map);
-	else
-		return (-1);
-	return (0);
+		return (tab_map);
+	return NULL;
 }
 
 
@@ -319,38 +317,99 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 }
 
 
-void	printscare(int x ,int y, int m, t_data  *img)
+void	printscare(t_axe *axe, int m, t_data  *img, int color)
 {
-	int i;
-	int j;
+	int x = axe->x;
+	int y = axe->y;
+	int x_count = 0;
+	int y_count = 0;
+	int y_save = y;
 
-	i = (x - (m / 2));
-	while (i < x + (m * 2))
+	while (x_count < m)
 	{
-		j = (y - (m / 2));
-		while (j < y + (m * 2))
+		y_count = 0;
+		y = y_save;
+		while (y_count < m)
 		{
-			my_mlx_pixel_put(img, i, j, 0x00FF0000);
-			j++;
+			my_mlx_pixel_put(img, x, y, color);
+			y++;
+			y_count++;
 		}
-		i++;
+		x++;
+		x_count++;
+
 	}
+}
+
+int intmin(int a, int b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
+}
+
+int intmax(int a, int b)
+{
+	if (a > b)
+		return (a);
+	else
+		return (b);
+}
+
+void	printmap(t_data *img, t_struct *s_parsing, char **map)
+{
+	t_axe axe;
+	axe.x = 0;
+	axe.x_c = 0;
+	s_parsing->m_width -= 4;
+	s_parsing->m_height -= 4;
+	int diviseur = intmin(s_parsing->x_render_size, s_parsing->y_render_size) / intmax(s_parsing->m_width, s_parsing->m_height);
+
+	printf("diviseur = %i\n", diviseur);
+	printf("s_parsing->m_height = %i\n", s_parsing->m_height);
+	printf("s_parsing->m_width = %i\n", s_parsing->m_width);
+	printf("s_parsing->x_render_size = %i\n", s_parsing->x_render_size);
+	printf("s_parsing->y_render_size = %i\n", s_parsing->y_render_size);
+	printf("s_parsing->m_width *  diviseur= %i\n", s_parsing->m_width *  diviseur);
+
+	while (axe.x_c < s_parsing->m_width)
+	{
+		axe.y = 0;
+		axe.y_c = 0;
+		while (axe.y_c < s_parsing->m_height)
+		{
+			if (map[axe.y_c + 2][axe.x_c + 2] == '0')
+				printscare(&axe, diviseur - 1, img, 0X00E86a66);
+			else
+				printscare(&axe, diviseur - 1, img, 0x0066D0E8);
+			axe.y = axe.y + diviseur;
+			axe.y_c++;
+		}
+		axe.x = axe.x + diviseur;
+		axe.x_c++;
+	}
+	printf("NO SEG FAULT");
 }
 
 int main()
 {
+	char **map;
 	void    *mlx;
     void    *mlx_win;
     t_data  img;
 	t_struct s_parsing;
 
-	make_struct(&s_parsing);
+	map = make_struct(&s_parsing);
+	display_map(map);
 
 	mlx = mlx_init();
-    mlx_win = mlx_new_window(mlx, 500, 500, "Hello world!");
-    img.img = mlx_new_image(mlx, 500, 500);
+    mlx_win = mlx_new_window(mlx, s_parsing.x_render_size, s_parsing.y_render_size, "Hello world!");
+    img.img = mlx_new_image(mlx, s_parsing.x_render_size, s_parsing.y_render_size);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	printscare(100,100,50, &img);
+
+	printmap(&img, &s_parsing, map);
+
     mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
     mlx_loop(mlx);
 
