@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/03/01 08:50:57 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/03/01 09:33:18 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef	struct	s_struct
 	int		m_height;
 	int		m_width;
 	int		mini_map_diviseur;
+	int		N;
 }					t_struct;
 
 typedef	struct		s_axe
@@ -70,3 +71,5 @@ void redirect_args(t_list **map, t_struct *s_parsing, char *string);
 char	**make_struct(t_struct *s_parsing);
 
 void	printdeg(t_data *img, t_struct *s_parsing);
+
+void	printscare(t_axe *axe, int m, t_data  *img, int color);

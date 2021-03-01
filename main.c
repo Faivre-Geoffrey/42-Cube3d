@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:26:56 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/03/01 08:57:59 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:44:13 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void	printmap(t_data *img, t_struct *s_parsing, char **map)
 				printscare(&axe, diviseur, img, 0X00FFFFFF);
 			else if (map[axe.y_c + 2][axe.x_c + 2] == ' ')
 				printscare(&axe, diviseur, img, 0x00650000);
+			else if (map[axe.y_c + 2][axe.x_c + 2] == 'N')
+				printscare(&axe, diviseur, img, 0x00FF0000);
 			else
 				printscare(&axe, diviseur, img, 0x0066D0E8);
 			axe.y = axe.y + diviseur;
@@ -135,6 +137,7 @@ void	printmap(t_data *img, t_struct *s_parsing, char **map)
 	}
 	printf("NO SEG FAULT");
 }
+
 
 int main()
 {
@@ -148,18 +151,16 @@ int main()
 	map = make_struct(&s_parsing);
 	display_map(map, &s_parsing);
 	mlx = mlx_init();
-    mlx_win = mlx_new_window(mlx, s_parsing.x_render_size, s_parsing.y_render_size, "Hello world!");
+    mlx_win = mlx_new_window(mlx, s_parsing.x_render_size, s_parsing.y_render_size, "");
     img.img = mlx_new_image(mlx, s_parsing.x_render_size, s_parsing.y_render_size);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
 	printmap(&img, &s_parsing, map);
+	/* mouvement(&img, &s_parsing, map); */
 	/* printdegra(&img, &s_parsing); */
 
-    mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-    mlx_loop(mlx);
-
-
-
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	mlx_loop(mlx);
 
 	return (0);
 }

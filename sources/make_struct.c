@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 08:16:18 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/03/01 08:57:17 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/03/01 09:31:53 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,18 +137,25 @@ void make_map(t_list **map, t_struct *s_parsing, char *str)
     ft_lstadd_back(map, node);
 
 }
-int all_str_is_map(char *str)
+int all_str_is_map(char *str ,t_struct *s_parsing)
 {
 	int i;
 
 	i = 0;
+	s_parsing->N = 0;
 	while (str[i])
 	{
-		if (!(ft_isdigit(str[i]) || str[i] == ' ' || str[i] == '\t'))
+		if (!(ft_isdigit(str[i]) || str[i] == ' ' || str[i] == '\t' || str[i] == 'N'))
+		{
 			return (0);
+		}
+		if (str[i] == 'N')
+				s_parsing->N++;
 		i++;
 	}
 	if (i < 3)
+		return 0;
+	if (s_parsing->N > 1)
 		return 0;
 	return (1);
 }
@@ -160,7 +167,7 @@ void redirect_args(t_list **map, t_struct *s_parsing, char *string)
 		make_F(s_parsing, string);
 	else if (string[0] == 'C' && 1)
 		make_C(s_parsing, string);
-	else if (all_str_is_map(string) && 1)
+	else if (all_str_is_map(string, s_parsing) && 1)
 		make_map(map, s_parsing, string);
 }
 
