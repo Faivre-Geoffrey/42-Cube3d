@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/25 12:43:42 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/26 14:29:07 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,23 @@
 #include <fcntl.h>
 #include <mlx.h>
 
-typedef struct  s_data {
+typedef struct	s_rgb {
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
+}				t_rgb;
+
+
+typedef struct	s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}			t_data;
+}				t_data;
 
-typedef	struct		s_struct
+typedef	struct	s_struct
 {
 	int		fd;
 	int		x_render_size;

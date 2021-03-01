@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:26:56 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/25 14:58:03 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/02/26 14:33:57 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ void make_R(t_struct *s_parsing, char *str)
 		i++;
 	if (ft_isdigit(str[i]))
 		s_parsing->y_render_size = ft_atoi(str + i);
+}
+
+
+int		rgbtohex(int *tab)
+{
+	t_rgb rgb;
+	int hex;
+
+	rgb.r = tab[0];
+	rgb.b = tab[2];
+	rgb.g = tab[1];
+	rgb.a = 0;
+
+	hex = *(int *)&rgb;
+
+	return (hex);
+
+
 }
 
 void make_F(t_struct *s_parsing, char *str)
@@ -50,6 +68,8 @@ void make_F(t_struct *s_parsing, char *str)
 		i++;
 	if (ft_isdigit(str[i]))
 		s_parsing->ground_color[2] = ft_atoi(str + i);
+
+	printf("r = %i\nr = %i\nb = %i\nhex color = %i\n", s_parsing->ground_color[0],s_parsing->ground_color[1],s_parsing->ground_color[2], rgbtohex(s_parsing->ground_color));
 }
 
 void make_C(t_struct *s_parsing, char *str)
@@ -116,7 +136,6 @@ void make_map(t_list **map, t_struct *s_parsing, char *str)
 	t_list *node;
 
     node = ft_lstnew(str);
-
     ft_lstadd_back(map, node);
 
 }
@@ -213,7 +232,7 @@ void putdataintab(char **tab, int x , int y, t_list *map)
 
 int mapissecure(char **tab_map)
 {
-	int i;
+	/* int i;
 	int j;
 
 	i = 0;
@@ -234,7 +253,7 @@ int mapissecure(char **tab_map)
 			j++;
 		}
 		i++;
-	}
+	} */
 	return (1);
 }
 
@@ -275,15 +294,22 @@ void	print_tab(char **tab_map)
 	}
 }
 
-void display_map(char **tab_map)
+void display_map(char **tab_map ,t_struct *s_parsing)
 {
-	int	i;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (tab_map[i])
+	x = 0;
+	while (x < s_parsing->m_height)
 	{
-		printf("%s\n", tab_map[i]);
-		i++;
+		y = 0;
+		while (y < s_parsing->m_width)
+		{
+			printf("%c", tab_map[x][y]);
+			y++;
+		}
+		printf("\n");
+		x++;
 	}
 }
 
@@ -297,12 +323,13 @@ char	**make_struct(t_struct *s_parsing)
 	s_parsing->fd = open("conf.cub", O_RDONLY);
 	while (get_next_line(s_parsing->fd, &string))
 	{
+		/* printf("oui\n"); */
 		redirect_args(&map, s_parsing, string);
 	}
 	close(s_parsing->fd);
 	make_double_tab(map, &tab_map, s_parsing);
 	ft_lstclear(&map, fonction_bidon);
-	if (mapissecure(tab_map) == 1)
+	/* if (mapissecure(tab_map) == 1) */
 		return (tab_map);
 	return NULL;
 }
@@ -380,9 +407,11 @@ void	printmap(t_data *img, t_struct *s_parsing, char **map)
 		while (axe.y_c < s_parsing->m_height)
 		{
 			if (map[axe.y_c + 2][axe.x_c + 2] == '0')
-				printscare(&axe, diviseur - 1, img, 0X00E86a66);
+				printscare(&axe, diviseur, img, 0X00FFFFFF);
+			else if (map[axe.y_c + 2][axe.x_c + 2] == ' ')
+				printscare(&axe, diviseur, img, 0x00650000);
 			else
-				printscare(&axe, diviseur - 1, img, 0x0066D0E8);
+				printscare(&axe, diviseur, img, 0x0066D0E8);
 			axe.y = axe.y + diviseur;
 			axe.y_c++;
 		}
@@ -392,6 +421,29 @@ void	printmap(t_data *img, t_struct *s_parsing, char **map)
 	printf("NO SEG FAULT");
 }
 
+
+
+
+
+void	printdegra(t_data *img, t_struct *s_parsing)
+{
+	t_axe axe;
+	axe.x = 0;
+	while (axe.x < s_parsing->x_render_size)
+	{
+		axe.y = 0;
+		while (axe.y < s_parsing->y_render_size)
+		{
+			printscare(&axe, 1, img, 14443520);
+			axe.y++;
+		}
+		axe.x++;
+	}
+}
+
+
+
+
 int main()
 {
 	char **map;
@@ -400,15 +452,16 @@ int main()
     t_data  img;
 	t_struct s_parsing;
 
-	map = make_struct(&s_parsing);
-	display_map(map);
 
+	map = make_struct(&s_parsing);
+	display_map(map, &s_parsing);
 	mlx = mlx_init();
     mlx_win = mlx_new_window(mlx, s_parsing.x_render_size, s_parsing.y_render_size, "Hello world!");
     img.img = mlx_new_image(mlx, s_parsing.x_render_size, s_parsing.y_render_size);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
-	printmap(&img, &s_parsing, map);
+	/* printmap(&img, &s_parsing, map); */
+	printdegra(&img, &s_parsing);
 
     mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
     mlx_loop(mlx);
