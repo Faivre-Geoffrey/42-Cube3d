@@ -6,6 +6,11 @@ MLX = -Lmlx -lmlx -framework OpenGL -framework AppKit
 NAME = cub3d
 
 SRCS = 	main.c \
+	sources/color.c \
+	sources/lst_utils.c \
+	sources/make_id_cub.c \
+	sources/make_struct.c \
+	sources/printdeg.c \
 	GNL/get_next_line.c \
 	GNL/get_next_line_utils.c
 

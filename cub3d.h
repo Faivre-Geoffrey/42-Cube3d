@@ -6,7 +6,7 @@
 /*   By: gefaivre <gefaivre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:53:37 by gefaivre          #+#    #+#             */
-/*   Updated: 2021/02/26 14:29:07 by gefaivre         ###   ########.fr       */
+/*   Updated: 2021/03/01 08:50:57 by gefaivre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,20 @@ typedef	struct		s_axe
 	int		y_c;
 	int		x_c;
 }					t_axe;
+
+
+int		rgbtohex(int *tab);
+
+void    display_list(t_list *list);
+int		ft_lstlongest(t_list *lst);
+
+void make_R(t_struct *s_parsing, char *str);
+void make_F(t_struct *s_parsing, char *str);
+void make_C(t_struct *s_parsing, char *str);
+
+void    fonction_bidon(void *bidon);
+void make_map(t_list **map, t_struct *s_parsing, char *str);
+void redirect_args(t_list **map, t_struct *s_parsing, char *string);
+char	**make_struct(t_struct *s_parsing);
+
+void	printdeg(t_data *img, t_struct *s_parsing);
